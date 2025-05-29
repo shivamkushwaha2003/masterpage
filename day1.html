@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Portfolio</title>
+  
+  <style>
+    /* Base Styles for the Portfolio */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      width: 85%;
+      max-width: none;
+      margin: auto;
+      overflow: hidden;
+      padding: 20px 0;
+    }
+
+    header {
+      background-color: #33434d;
+      background-image: url(https://t3.ftcdn.net/jpg/08/86/49/54/240_F_886495498_14NHE9pzw6B7SGoU5Sxb4leA8gpXYDpz.jpg);
+      color: #ffffff;
+      padding: 150px 100px;
+      text-align: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    header h1 {
+      margin: 0;
+    }
+
+    section {
+      padding: 40px 0;
+    }
+
+    .about,
+    .video,
+    .projects,
+    .contact,
+    .achievements,
+    .future-goals,
+    .personal-side { /* Added .personal-side here */
+      background-color: #fff;
+      margin: 20px 0;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .about h2,
+    .video h2,
+    .projects h2,
+    .contact h2,
+    .achievements h2,
+    .future-goals h2,
+    .personal-side h2 { /* Added .personal-side h2 here */
+      color: #35424a;
+    }
+
+    .project {
+      margin-bottom: 20px;
+    }
+
+    footer {
+      background-color: #35424a;
+      color: #fff;
+      text-align: center;
+      padding: 20px 0;
+      margin-top: 20px;
+    }
+
+    video {
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Responsive Design for the Portfolio */
+    @media (max-width: 768px) {
+      .container {
+        width: 95%;
+      }
+
+      header h1 {
+        font-size: 1.8rem;
+      }
+
+      .project h3 {
+        font-size: 1.2rem;
+      }
+    }
+
+    /* --- Welcome Message Styles --- */
+    #welcomeMessage {
+      position: fixed; /* Keep the message fixed on screen */
+      top: -100px; /* Start from above the viewport to slide down */
+      left: 50%;
+      transform: translateX(-50%) scale(0.9); /* Initially smaller and horizontally centered */
+      
+      /* Background for the message box itself */
+      background-color: rgba(0, 0, 0, 0.75); /* Semi-transparent dark background for good contrast */
+      
+      /* Box styling */
+      padding: 30px 60px;
+      border-radius: 15px; /* Rounded corners for the box */
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Stronger shadow for a prominent look */
+      
+      z-index: 1000; /* Ensure it's on top of all other content */
+      text-align: center;
+      opacity: 0; /* Initially hidden (transparent) */
+      
+      /* Smooth transitions for slide-down, fade-in, and scale effects */
+      transition: transform 0.7s ease-out, opacity 0.7s ease-out;
+    }
+
+    /* Styling for the text inside the welcome message */
+    #welcomeMessage p {
+      margin: 0; /* Remove default paragraph margin */
+      font-size: 3em; /* Large and impactful font size */
+      font-weight: bold; /* Bold text */
+      letter-spacing: 2px; /* Spacing between letters for better readability */
+      text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.6); /* Strong text shadow for depth */
+
+      /* --- Gradient Text Effect --- */
+      /* Define the gradient colors for the text background */
+      background-image: linear-gradient(45deg, #FFD700, #FF6347, #4682B4); /* Gold, Tomato, SteelBlue */
+      /* Apply the background only to the text content */
+      -webkit-background-clip: text; /* For Safari and other WebKit browsers */
+      background-clip: text; /* Standard property to clip background to text shape */
+      color: transparent; /* Make the text transparent so the background gradient shows through */
+    }
+
+    /* Class added by JavaScript to show the message with animation */
+    #welcomeMessage.show {
+      transform: translateX(-50%) translateY(200px) scale(1); /* Slide down to 200px from top and scale to normal size */
+      opacity: 1; /* Make it fully visible */
+    }
+
+    /* --- Achievements Section Styles --- */
+    .achievements {
+      background-color: #f9f9f9; /* Slightly different background for distinction */
+      padding: 40px 0;
+      margin: 20px 0;
+      border-radius: 8px;
+    }
+
+    .achievements h2 {
+      text-align: center;
+      color: #35424a;
+      margin-bottom: 30px;
+    }
+
+    .achievement-cards-container {
+      display: flex; /* Use flexbox for card layout */
+      flex-wrap: wrap; /* Allow cards to wrap to the next line */
+      gap: 20px; /* Space between cards */
+      justify-content: center; /* Center cards horizontally */
+      align-items: stretch; /* Make cards stretch to equal height */
+    }
+
+    .achievement-card {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Soft shadow for card depth */
+      padding: 25px;
+      flex: 1 1 calc(33.333% - 40px); /* Approx 3 cards per row with gap */
+      max-width: calc(33.333% - 40px); /* Max width for 3 cards per row */
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between; /* Push date to bottom */
+      transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+    }
+
+    .achievement-card:hover {
+      transform: translateY(-5px); /* Lift card slightly on hover */
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+    }
+
+    .achievement-card h3 {
+      color: #007bff; /* Highlight achievement title */
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 1.5em;
+    }
+
+    .achievement-card p {
+      font-size: 0.95em;
+      color: #555;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+    .achievement-date {
+      font-size: 0.85em;
+      color: #888;
+      text-align: right;
+      margin-top: auto; /* Push to the bottom */
+    }
+
+    /* Responsive adjustments for achievement cards */
+    @media (max-width: 1024px) {
+      .achievement-card {
+        flex: 1 1 calc(50% - 40px); /* 2 cards per row on tablets */
+        max-width: calc(50% - 40px);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .achievement-card {
+        flex: 1 1 90%; /* 1 card per row on mobile */
+        max-width: 90%;
+      }
+      .achievement-cards-container {
+        gap: 15px; /* Adjust gap for smaller screens */
+      }
+    }
+
+    /* --- Scrolling Text Section Styles --- */
+    .scrolling-text-section {
+      background-color: #28a745; /* Green background for the scrolling bar */
+      color: #ffffff;
+      padding: 10px 0;
+      overflow: hidden; /* Hide overflowing content */
+      white-space: nowrap; /* Prevent text from wrapping */
+      font-size: 1.1em;
+      font-weight: bold;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    }
+
+    .scrolling-text-content {
+      display: inline-block; /* Make it behave like a block but flow with text */
+      padding-left: 100%; /* Start the text off-screen to the right */
+      animation: scroll-left 20s linear infinite; /* Animation definition */
+    }
+
+    /* Keyframes for the scrolling animation */
+    @keyframes scroll-left {
+      0% {
+        transform: translateX(0%); /* Start at its original position */
+      }
+      100% {
+        transform: translateX(-100%); /* Move completely off-screen to the left */
+      }
+    }
+
+    /* Pause animation on hover */
+    .scrolling-text-content:hover {
+      animation-play-state: paused;
+    }
+
+    /* --- Future Goals Section Styles --- */
+    .future-goals {
+      background-color: #f9f9f9; /* Similar background to achievements for consistency */
+      padding: 40px 0;
+      margin: 20px 0;
+      border-radius: 8px;
+    }
+
+    .future-goals h2 {
+      text-align: center;
+      color: #35424a;
+      margin-bottom: 30px;
+    }
+
+    .future-goal-card {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        padding: 25px;
+        flex: 1 1 calc(50% - 40px); /* 2 cards per row for future goals */
+        max-width: calc(50% - 40px);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        text-align: center; /* Center content within the card */
+    }
+
+    .future-goal-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .future-goal-card h3 {
+        color: #e67e22; /* A distinct color for future goals */
+        margin-top: 0;
+        margin-bottom: 15px;
+        font-size: 1.6em;
+    }
+
+    .future-goal-card p {
+        font-size: 1em;
+        color: #555;
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+
+    .future-goal-card img {
+        width: 80px; /* Small photo size */
+        height: 80px;
+        border-radius: 50%; /* Circular photo */
+        object-fit: cover;
+        margin: 0 auto 15px auto; /* Center photo and add margin below */
+        border: 2px solid #e67e22; /* Border matching title color */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Responsive adjustments for future goal cards */
+    @media (max-width: 768px) {
+      .future-goal-card {
+        flex: 1 1 90%; /* 1 card per row on mobile */
+        max-width: 90%;
+      }
+    }
+
+    /* --- Personal Side Section Styles --- */
+    .personal-side {
+      background-color: #f9f9f9; /* Consistent background */
+      padding: 40px 0;
+      margin: 20px 0;
+      border-radius: 8px;
+    }
+
+    .personal-side h2 {
+      text-align: center;
+      color: #35424a;
+      margin-bottom: 30px;
+    }
+
+    /* New container for horizontally scrolling personal cards */
+    .personal-cards-scroll-container {
+      display: flex; /* Enable flexbox */
+      flex-wrap: nowrap; /* Prevent cards from wrapping to next line */
+      gap: 20px; /* Space between cards */
+      overflow-x: auto; /* Enable horizontal scrolling when content overflows */
+      padding-bottom: 15px; /* Add some padding for scrollbar visibility */
+      -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+      justify-content: center; /* Center cards horizontally */
+    }
+
+    /* Hide scrollbar for a cleaner look (optional) */
+    .personal-cards-scroll-container::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .personal-cards-scroll-container::-webkit-scrollbar-thumb {
+      background-color: #ccc;
+      border-radius: 10px;
+    }
+
+    .personal-cards-scroll-container::-webkit-scrollbar-track {
+      background-color: #f1f1f1;
+    }
+
+    .personal-card {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        padding: 25px;
+        /* Fixed width for scrolling cards, adjust as needed */
+        flex-shrink: 0; /* Prevent cards from shrinking */
+        width: 300px; /* Example fixed width for each card */
+        
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        text-align: center;
+    }
+
+    .personal-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .personal-card h3 {
+        color: #673ab7; /* A distinct purple color for personal side */
+        margin-top: 0;
+        margin-bottom: 15px;
+        font-size: 1.6em;
+    }
+
+    .personal-card p {
+        font-size: 1em;
+        color: #555;
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+
+    .personal-card img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin: 0 auto 15px auto;
+        border: 2px solid #673ab7; /* Border matching title color */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Responsive adjustments for personal cards */
+    @media (max-width: 768px) {
+      .personal-card {
+        width: 85%; /* Adjust width for mobile */
+      }
+    }
+
+    /* --- New Scrolling Text Section for Personal Side --- */
+    /* REMOVED: .scrolling-text-section-personal and its related styles */
+
+    /* Contact Link Styling */
+    .contact a {
+      color: #007bff; /* Blue color for links */
+      text-decoration: none; /* Remove underline */
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    .contact a:hover {
+      color: #0056b3; /* Darker blue on hover */
+      text-decoration: underline; /* Underline on hover */
+    }
+  </style>
+  <script>
+    // JavaScript to control the welcome message animation
+    window.onload = function() {
+      const welcomeMessage = document.getElementById('welcomeMessage');
+
+      // 1. Make the message div visible (but still off-screen and transparent)
+      welcomeMessage.style.display = 'block'; 
+
+      // 2. After a small delay, add the 'show' class to trigger the CSS transitions
+      // This allows the 'display: block' to be applied before the animation starts
+      setTimeout(() => {
+        welcomeMessage.classList.add('show'); 
+      }, 100); 
+
+      // 3. After 3 seconds, remove the 'show' class to trigger the fade-out and slide-up animation
+      setTimeout(() => {
+        welcomeMessage.classList.remove('show'); 
+        // 4. After the fade-out transition completes (0.7 seconds), hide the div completely
+        setTimeout(() => {
+          welcomeMessage.style.display = 'none'; 
+          // Reset its top position so it's ready for another animation if the page is revisited
+          welcomeMessage.style.top = '-100px'; 
+        }, 700); // This duration should match the CSS transition duration for opacity/transform
+      }, 3000); // The message stays visible for 3 seconds
+    };
+  </script>
+</head>
+<body>
+  <div id="welcomeMessage" style="display: none;">
+    <p>Welcome to My Portfolio!</p>
+  </div>
+
+  <header>
+    <div class="photo">
+      </div>
+  </header>
+
+  <section class="scrolling-text-section">
+    <div class="scrolling-text-content">
+      Welcome to mine Portfolio! Explore my work and connect with me. Happy to build amazing web experiences!        Welcome to mine Portfolio! Explore my work and connect with me. Happy to build amazing web experiences!
+    </div>
+  </section>
+
+  <section class="about">
+    <div class="container">
+      <img src="C:\Users\shiva\Downloads\IMG20250401135728.jpg" alt="Your Photo"
+        style="width: 200px; height: auto; border: 3px solid #fff; box-shadow: 0 4px 8px rgb(0, 0, 0) ; border-radius: 5%">
+      <h2>About Me</h2>
+      <p>I am <strong>Shivam Kushwaha</strong>, a passionate WEB DEVELOPER with experience in building responsive websites and web
+        applications. <br> I specialize in HTML, CSS, JavaScript, and enjoy bringing creative designs to life.</p>
+      
+      <h3>Details:</h3>
+      <ul>
+        <li><strong>Name:</strong> Shivam Kushwaha</li>
+        <li><strong>Location:</strong>Boisar Palghar M.H - 401 504</li>
+        <li><strong>Education:</strong> B.Tech ( Computer Engineering )</li>
+        <li><strong>Speaking languages Known:</strong> Hindi, English</li>
+        <li><strong>Coding languages Known:</strong> C, C++, Python, JavaScript, Java</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="video">
+    <div class="container">
+      <h2>Introduction Video</h2>
+      <iframe src="00" frameborder="0" allowfullscreen style="width: 100%; height: 315px; border-radius: 8px;"></iframe>
+    </div>
+  </section>
+
+  <section class="projects">
+    <div class="container">
+      <h2>Projects</h2>
+      <div class="project">
+        <h3>Online Shopping</h3>
+        <p> This project is a simple yet   functional  online shopping web page that  allows users to browse products, add items to a cart, and proceed to checkout. The aim was to understand front-end development and simulate the user experience of an   e-commerce platform. <br>
+
+           <h3> Technologies Used:</h3>
+            HTML, CSS, JavaScript
+            (Optional: Bootstrap / React / Firebase – agar use kiya ho to add karo)
+
+           <h3> My Role:</h3>
+            Designed and developed the entire front-end of the website, including layout, styling, interactivity, and responsive design.
+
+           <h3> Key Features:</h3>
+
+            Product listing with images, names, and prices. <br>
+
+            Add to cart and remove from cart functionality. <br>
+
+            Shopping cart view with total calculation. <br>
+
+            Responsive layout for mobile and desktop screens. <br>
+
+            (<strong>Optional:</strong> Search bar / filter / checkout form). <br>
+
+           <h3> Outcome:</h3>
+            Successfully implemented and tested in a browser environment. Helped build strong fundamentals in HTML, CSS, and JavaScript. Can be extended into a full e-commerce application with backend integration.</p>
+      </div>
+      <div class="project">
+        <!-- <h3>Another Project Title</h3>
+        <p>Description of your other project.</p> -->
+      </div>
+    </div>
+  </section>
+
+  <section class="achievements">
+    <div class="container">
+      <h2>Achievements</h2>
+      <div class="achievement-cards-container">
+        <div class="achievement-card">
+          <h3>Web Development Intern</h3>
+          <p>Successfully completed a 3-month internship, contributing to the development of a responsive e-commerce platform using HTML, CSS, and JavaScript.</p>
+          <span class="achievement-date">May 2024 - Aug 2024</span>
+        </div>
+
+        <div class="achievement-card">
+          <h3>College Project Lead</h3>
+          <p>Led a team of 4 to develop a secure online voting system, showcasing strong leadership and technical skills in database management and backend development.</p>
+          <span class="achievement-date">Dec 2023</span>
+        </div>
+
+        <div class="achievement-card">
+          <h3>Certified JavaScript Developer</h3>
+          <p>Obtained certification in advanced JavaScript concepts, demonstrating proficiency in modern web development practices and frameworks.</p>
+          <span class="achievement-date">Feb 2024</span>
+        </div>
+
+        <div class="achievement-card">
+          <h3>Hackathon Finalist</h3>
+          <p>Secured a finalist position in a national hackathon, developing an an innovative solution for smart city management using IoT integration.</p>
+          <span class="achievement-date">Nov 2023</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="future-goals">
+    <div class="container">
+      <h2>Future Goals</h2>
+      <div class="achievement-cards-container"> 
+        <div class="future-goal-card">
+          <img src="https://placehold.co/80x80/FFD700/FFFFFF?text=Innovate" alt="Innovation Icon"> 
+          <h3>Innovator in Web Technologies</h3>
+          <p>My aim is to continuously learn and and apply cutting-edge web technologies to build impactful and user-centric digital solutions that solve real-world problems.</p>
+        </div>
+
+        <div class="future-goal-card">
+          <img src="https://placehold.co/80x80/4682B4/FFFFFF?text=Community" alt="Community Icon"> 
+          <h3>Contributing to Open Source & Community</h3>
+          <p>I aspire to contribute actively to open-source projects, share knowledge through blogging and workshops, and mentor aspiring developers to foster a collaborative and inclusive tech community.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="personal-side">
+    <div class="container">
+      <h2>Personal Side</h2>
+      <div class="personal-cards-scroll-container"> <div class="personal-card">
+          <img src="https://placehold.co/80x80/8BC34A/FFFFFF?text=Hobbies" alt="Hobbies Icon">
+          <h3>Hobbies & Passions</h3>
+          <p>I love reading sci-fi novels as they spark creativity and offer new perspectives. Playing chess sharpens my strategic thinking, and hiking helps me connect with nature and clear my mind.</p>
+        </div>
+
+        <div class="personal-card">
+          <img src="https://placehold.co/80x80/9C27B0/FFFFFF?text=Inspire" alt="Inspiration Icon">
+          <h3>Inspirations & Resources</h3>
+          <p>My role model is Elon Musk for his relentless pursuit of innovation. I frequently visit Medium.com for tech articles and admire startups like Stripe for their seamless solutions. My favorite book is "Sapiens" for its profound insights.</p>
+        </div>
+
+        <div class="personal-card">
+          <img src="https://placehold.co/80x80/00BCD4/FFFFFF?text=Volunteer" alt="Volunteering Icon">
+          <h3>Volunteering & Community</h3>
+          <p>I actively volunteer at local tech meetups, assisting with event organization and mentoring junior developers. I believe in giving back to the community that has supported my growth.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact">
+    <div class="container">
+      <h2>Contact Me</h2>
+      <p>Email: <a href="mailto:123shivam2052@sjcem.edu.in">123shivam2052@sjcem.edu.in</a></p>
+      <p>Phone: <a href="https://wa.me/qr/5HJSHQT7F2I5N1" target="_blank">+91 8856803602</a></p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>© 2025 Shivam Kushwaha. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

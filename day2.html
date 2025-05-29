@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Portfolio</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="icon" href="https://placehold.co/32x32/007bff/ffffff?text=P" type="image/x-icon"> 
+
+  <style>
+    /* Base Styles for the Portfolio */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f4f4f4;
+      transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for theme change */
+    }
+
+    .container {
+      width: 85%;
+      max-width: none;
+      margin: auto;
+      overflow: hidden;
+      padding: 20px 0;
+    }
+
+    header {
+      background-color: #33434d;
+      background-image: url(https://t3.ftcdn.net/jpg/08/86/49/54/240_F_886495498_14NHE9pzw6B7SGoU5Sxb4leA8gpXYDpz.jpg);
+      color: #ffffff;
+      padding: 150px 100px;
+      text-align: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      position: relative; /* Needed for absolute positioning of the toggle */
+    }
+
+    header h1 {
+      margin: 0;
+    }
+
+    section {
+      padding: 40px 0;
+    }
+
+    .about,
+    .video,
+    .projects,
+    .contact,
+    .achievements,
+    .future-goals,
+    .personal-side,
+    .location-map,
+    .contact-form-section,
+    .gallery-section { /* Added .gallery-section here */
+      background-color: #fff;
+      margin: 20px 0;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for theme change */
+    }
+
+    .about h2,
+    .video h2,
+    .projects h2,
+    .contact h2,
+    .achievements h2,
+    .future-goals h2,
+    .personal-side h2,
+    .location-map h2,
+    .contact-form-section h2,
+    .gallery-section h2 { /* Added .gallery-section h2 here */
+      color: #35424a;
+      transition: color 0.3s ease; /* Smooth transition for theme change */
+    }
+
+    .project {
+      margin-bottom: 20px;
+    }
+
+    footer {
+      background-color: #35424a;
+      color: #fff;
+      text-align: center;
+      padding: 20px 0;
+      margin-top: 20px;
+      transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for theme change */
+    }
+
+    video {
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Responsive Design for the Portfolio */
+    @media (max-width: 768px) {
+      .container {
+        width: 95%;
+      }
+
+      header h1 {
+        font-size: 1.8rem;
+      }
+
+      .project h3 {
+        font-size: 1.2rem;
+      }
+    }
+
+    /* --- Welcome Message Styles --- */
+    #welcomeMessage {
+      position: fixed;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%) scale(0.9);
+      background-color: rgba(0, 0, 0, 0.75);
+      padding: 30px 60px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      text-align: center;
+      opacity: 0;
+      transition: transform 0.7s ease-out, opacity 0.7s ease-out;
+    }
+
+    #welcomeMessage p {
+      margin: 0;
+      font-size: 3em;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.6);
+      background-image: linear-gradient(45deg, #FFD700, #FF6347, #4682B4);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    #welcomeMessage.show {
+      transform: translateX(-50%) translateY(200px) scale(1);
+      opacity: 1;
+    }
+
+    /* --- Achievements Section Styles --- */
+    .achievements {
+      background-color: #f9f9f9;
+      padding: 40px 0;
+      margin: 20px 0;
+      border-radius: 8px;
+    }
+
+    .achievements h2 {
+      text-align: center;
+      color: #35424a;
+      margin-bottom: 30px;
+    }
+
+    .achievement-cards-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      align-items: stretch;
+    }
+
+    .achievement-card {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      padding: 25px;
+      flex: 1 1 calc(33.333% - 40px);
+      max-width: calc(33.333% - 40px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    }
+
+    .achievement-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .achievement-card h3 {
+      color: #007bff;
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 1.5em;
+    }
+
+    .achievement-card p {
+      font-size: 0.95em;
+      color: #555;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+    .achievement-date {
+      font-size: 0.85em;
+      color: #888;
+      text-align: right;
+      margin-top: auto;
+    }
+
+    @media (max-width: 1024px) {
+      .achievement-card {
+        flex: 1 1 calc(50% - 40px);
+        max-width: calc(50% - 40px);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .achievement-card {
+        flex: 1 1 90%;
+        max-width: 90%;
+      }
+      .achievement-cards-container {
+        gap: 15px;
+      }
+    }
+
+    /* --- Scrolling Text Section Styles --- */
+    .scrolling-text-section {
+      background-color: #28a745;
+      color: #ffffff;
+      padding: 10px 0;
+      overflow: hidden;
+      white-space: nowrap;
+      font-size: 1.1em;
+      font-weight: bold;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .scrolling-text-content {
+      display: inline-block;
+      padding-left: 100%;
+      animation: scroll-left 20s linear infinite;
+    }
+
+    @keyframes scroll-left {
+      0% {
+        transform: translateX(0%);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    .scrolling-text-content:hover {
+      animation-play-state: paused;
+    }
+
+    /* --- Future Goals Section Styles --- */
+    .future-goals {
+      background-color: #f9f9f9;
+      padding: 40px 0;
+      margin: 20px 0;
+      border-radius: 8px;
+    }
+
+    .future-goals h2 {
+      text-align: center;
+      color: #35424a;
+      margin-bottom: 30px;
+    }
+
+    .future-goal-card {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        padding: 25px;
+        flex: 1 1 calc(50% - 40px);
+        max-width: calc(50% - 40px);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+        text-align: center;
+    }
+
+    .future-goal-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .future-goal-card h3 {
+        color: #e67e22;
+        margin-top: 0;
+        margin-bottom: 15px;
+        font-size: 1.6em;
+    }
+
+    .future-goal-card p {
+        font-size: 1em;
+        color: #555;
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+
+    .future-goal-card img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin: 0 auto 15px auto;
+        border: 2px solid #e67e22;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 768px) {
+      .future-goal-card {
+        flex: 1 1 90%;
+        max-width: 90%;
+      }
+    }
+
+    /* --- Personal Side Section Styles --- */
+    .personal-side {
+      background-color: #f9f9f9;
+      padding: 40px 0;
+      margin: 20px 0;
+      border-radius: 8px;
+    }
+
+    .personal-side h2 {
+      text-align: center;
+      color: #35424a;
+      margin-bottom: 30px;
+    }
+
+    .personal-cards-scroll-container {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 20px;
+      overflow-x: auto;
+      padding-bottom: 15px;
+      -webkit-overflow-scrolling: touch;
+      justify-content: center;
+    }
+
+    .personal-cards-scroll-container::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .personal-cards-scroll-container::-webkit-scrollbar-thumb {
+      background-color: #ccc;
+      border-radius: 10px;
+    }
+
+    .personal-cards-scroll-container::-webkit-scrollbar-track {
+      background-color: #f1f1f1;
+    }
+
+    .personal-card {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        padding: 25px;
+        flex-shrink: 0;
+        width: 300px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+        text-align: center;
+    }
+
+    .personal-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .personal-card h3 {
+        color: #673ab7;
+        margin-top: 0;
+        margin-bottom: 15px;
+        font-size: 1.6em;
+    }
+
+    .personal-card p {
+        font-size: 1em;
+        color: #555;
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+
+    .personal-card img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin: 0 auto 15px auto;
+        border: 2px solid #673ab7;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 768px) {
+      .personal-card {
+        width: 85%;
+      }
+    }
+
+    /* --- Google Map Section Styles --- */
+    .location-map {
+      background-color: #fff;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .location-map h2 {
+      color: #35424a;
+      margin-bottom: 20px;
+    }
+
+    .map-container {
+      position: relative;
+      height: 300px;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .map-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* --- Footer Social Icons --- */
+    .social-icons {
+      margin-top: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .social-icons a {
+      color: #fff;
+      font-size: 2em;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .social-icons a:hover {
+      color: #007bff;
+      transform: scale(1.1);
+    }
+
+    /* --- Contact Form Styles --- */
+    .contact-form-section {
+      background-color: #f9f9f9;
+      padding: 40px 0;
+      margin: 20px 0;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .contact-form-section h2 {
+      color: #35424a;
+      margin-bottom: 30px;
+    }
+
+    .contact-form form {
+      max-width: 450px;
+      margin: 0 auto;
+      padding: 40px;
+      background-color: #fff;
+      border-radius: 25px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Black shadow */
+      text-align: center;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .contact-form label {
+      display: none;
+    }
+
+    .contact-form input[type="text"],
+    .contact-form input[type="email"],
+    .contact-form textarea {
+      width: calc(100% - 40px);
+      padding: 15px 20px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 20px;
+      font-size: 1em;
+      box-sizing: border-box;
+      background-color: #f0f0f0;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .contact-form input[type="text"]:focus,
+    .contact-form input[type="email"]:focus,
+    .contact-form textarea:focus {
+      background-color: #e8e8e8;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1), 0 0 0 2px #a0caff;
+      outline: none;
+    }
+
+    .contact-form textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .contact-form button {
+      background-color: #66b3ff;
+      color: white;
+      padding: 15px 40px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 1.1em;
+      font-weight: bold;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      display: block;
+      width: auto;
+      margin: 20px auto 0 auto;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .contact-form button:hover {
+      background-color: #4da6ff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    /* --- Weather Widget Styles --- */
+    .weather-widget {
+      position: fixed;
+      top: 20px;
+      right: 80px; /* Adjusted right position to avoid overlap with toggle */
+      background-color: #ffffff;
+      padding: 15px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      z-index: 1000; /* Ensure it's below the toggle button if they overlap */
+      text-align: center;
+      width: 180px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .weather-widget h3 {
+      margin: 0;
+      color: #35424a;
+      font-size: 1.1em;
+    }
+
+    .weather-widget .temperature {
+      font-size: 2.2em;
+      font-weight: bold;
+      color: #007bff;
+      margin-bottom: 5px;
+    }
+
+    .weather-widget .city {
+      font-size: 0.9em;
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    .weather-widget button {
+      background-color: #28a745;
+      color: white;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.9em;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .weather-widget button:hover {
+      background-color: #218838;
+      transform: translateY(-1px);
+    }
+
+    /* --- Dark Mode Styles --- */
+    body.dark-mode {
+      background-color: #2c2c2c;
+      color: #e0e0e0;
+    }
+
+    body.dark-mode .about,
+    body.dark-mode .video,
+    body.dark-mode .projects,
+    body.dark-mode .contact,
+    body.dark-mode .achievements,
+    body.dark-mode .future-goals,
+    body.dark-mode .personal-side,
+    body.dark-mode .location-map,
+    body.dark-mode .contact-form-section,
+    body.dark-mode .gallery-section { /* Added .gallery-section dark mode */
+      background-color: #3a3a3a;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* Darker shadow for dark mode */
+    }
+
+    body.dark-mode .about h2,
+    body.dark-mode .video h2,
+    body.dark-mode .projects h2,
+    body.dark-mode .contact h2,
+    body.dark-mode .achievements h2,
+    body.dark-mode .future-goals h2,
+    body.dark-mode .personal-side h2,
+    body.dark-mode .location-map h2,
+    body.dark-mode .contact-form-section h2,
+    body.dark-mode .gallery-section h2 { /* Added .gallery-section h2 dark mode */
+      color: #f0f0f0;
+    }
+
+    body.dark-mode footer {
+      background-color: #1a1a1a;
+      color: #f0f0f0;
+    }
+
+    body.dark-mode .social-icons a {
+      color: #f0f0f0;
+    }
+
+    body.dark-mode .scrolling-text-section {
+      background-color: #1e88e5; /* A different color for dark mode scrolling text */
+      color: #fff;
+    }
+
+    body.dark-mode .achievement-card,
+    body.dark-mode .future-goal-card,
+    body.dark-mode .personal-card,
+    body.dark-mode .gallery-item { /* Added .gallery-item dark mode */
+      background-color: #4a4a4a;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    body.dark-mode .achievement-card p,
+    body.dark-mode .future-goal-card p,
+    body.dark-mode .personal-card p {
+      color: #c0c0c0;
+    }
+
+    body.dark-mode .achievement-date {
+      color: #b0b0b0;
+    }
+
+    body.dark-mode .contact-form form {
+      background-color: #4a4a4a;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8); /* Even darker shadow for dark mode form */
+    }
+
+    body.dark-mode .contact-form input[type="text"],
+    body.dark-mode .contact-form input[type="email"],
+    body.dark-mode .contact-form textarea {
+      background-color: #5a5a5a;
+      color: #e0e0e0;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    body.dark-mode .contact-form input[type="text"]:focus,
+    body.dark-mode .contact-form input[type="email"]:focus,
+    body.dark-mode .contact-form textarea:focus {
+      background-color: #6a6a6a;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3), 0 0 0 2px #6a9eff;
+    }
+
+    body.dark-mode .contact-form button {
+      background-color: #3f51b5; /* Darker blue for dark mode button */
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    body.dark-mode .contact-form button:hover {
+      background-color: #303f9f;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    body.dark-mode .weather-widget {
+      background-color: #4a4a4a;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    body.dark-mode .weather-widget h3 {
+      color: #f0f0f0;
+    }
+
+    body.dark-mode .weather-widget .temperature {
+      color: #90caf9; /* Lighter blue for dark mode temperature */
+    }
+
+    body.dark-mode .weather-widget .city {
+      color: #c0c0c0;
+    }
+
+    body.dark-mode .weather-widget button {
+      background-color: #4caf50; /* Slightly different green for dark mode button */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    body.dark-mode .weather-widget button:hover {
+      background-color: #388e3c;
+    }
+
+    /* Dark/Light Mode Toggle Button */
+    #modeToggle {
+      position: fixed; /* Changed to fixed to ensure it stays visible on scroll */
+      top: 20px;
+      right: 20px;
+      width: 45px; /* Circular size */
+      height: 45px; /* Circular size */
+      border-radius: 50%; /* Make it circular */
+      background-color: rgba(255, 255, 255, 0.8);
+      color: #333;
+      border: none;
+      cursor: pointer;
+      font-size: 1.2em; /* Icon size */
+      display: flex; /* Use flexbox to center content */
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+      z-index: 1002; /* Ensure it's above the weather widget and other content */
+    }
+
+    #modeToggle:hover {
+      background-color: rgba(255, 255, 255, 1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    body.dark-mode #modeToggle {
+      background-color: rgba(0, 0, 0, 0.8);
+      color: #f0f0f0;
+      box-shadow: 0 2px 5px rgba(255, 255, 255, 0.2);
+    }
+
+    body.dark-mode #modeToggle:hover {
+      background-color: rgba(0, 0, 0, 1);
+      box-shadow: 0 4px 8px rgba(255, 255, 255, 0.3);
+    }
+
+    /* --- Scroll Animation Styles --- */
+    .scroll-animate {
+      opacity: 0;
+      transform: translateY(50px) translateX(50px); /* Start from bottom-right */
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .scroll-animate.is-visible {
+      opacity: 1;
+      transform: translateY(0) translateX(0); /* End at original position */
+    }
+
+    /* --- Scroll to Top Button Styles --- */
+    #scrollToTopBtn {
+      display: none; /* Hidden by default */
+      position: fixed; /* Fixed at the bottom right */
+      bottom: 20px;
+      right: 20px;
+      z-index: 99; /* Higher than other content, but below toggle/weather if they overlap */
+      width: 50px;
+      height: 50px;
+      border-radius: 50%; /* Circular button */
+      background-color: #007bff; /* Blue background */
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 1.5em; /* Arrow icon size */
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s ease, transform 0.2s ease, opacity 0.3s ease;
+      display: flex; /* Use flexbox to center content */
+      justify-content: center;
+      align-items: center;
+    }
+
+    #scrollToTopBtn:hover {
+      background-color: #0056b3;
+      transform: translateY(-2px);
+    }
+
+    /* Dark mode for scroll to top button */
+    body.dark-mode #scrollToTopBtn {
+      background-color: #3f51b5; /* Darker blue */
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    }
+
+    body.dark-mode #scrollToTopBtn:hover {
+      background-color: #303f9f;
+    }
+
+    /* --- Gallery Section Styles --- */
+    .gallery-section {
+      background-color: #f9f9f9;
+      padding: 40px 0;
+      margin: 20px 0;
+      border-radius: 8px;
+      position: relative; /* For positioning navigation buttons */
+    }
+
+    .gallery-section h2 {
+      text-align: center;
+      color: #35424a;
+      margin-bottom: 30px;
+    }
+
+    .gallery-container {
+      overflow: hidden; /* Hide overflowing items */
+      width: 100%;
+      padding: 0 20px; /* Padding for the container itself */
+      box-sizing: border-box;
+    }
+
+    .gallery-scroller {
+      display: flex;
+      transition: transform 0.5s ease-in-out; /* Smooth transition for movement */
+    }
+
+    .gallery-item {
+      flex-shrink: 0; /* Prevent items from shrinking */
+      width: 280px; /* Fixed width for each card */
+      margin-right: 20px; /* Space between cards */
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      overflow: hidden; /* Hide overflow for rounded corners */
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 200px; /* Fixed height for images */
+      object-fit: cover; /* Cover the area, cropping if necessary */
+      display: block; /* Remove extra space below image */
+      border-radius: 10px 10px 0 0; /* Rounded top corners */
+    }
+
+    .gallery-item-title {
+      padding: 15px;
+      font-weight: bold;
+      color: #007bff;
+      font-size: 1.1em;
+      text-align: center;
+    }
+
+    .gallery-navigation {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .gallery-navigation button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 0 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .gallery-navigation button:hover {
+      background-color: #0056b3;
+      transform: translateY(-2px);
+    }
+
+    /* Dark mode for gallery navigation buttons */
+    body.dark-mode .gallery-navigation button {
+      background-color: #3f51b5;
+    }
+
+    body.dark-mode .gallery-navigation button:hover {
+      background-color: #303f9f;
+    }
+  </style>
+  <script>
+    // JavaScript to control the welcome message animation
+    window.onload = function() {
+      const welcomeMessage = document.getElementById('welcomeMessage');
+      const modeToggle = document.getElementById('modeToggle');
+      const modeIcon = modeToggle.querySelector('i'); // Get the icon element
+      const body = document.body;
+      const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+      // Function to apply the saved theme or default to light
+      function applyTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+          body.classList.add('dark-mode');
+          modeIcon.classList.remove('fa-moon');
+          modeIcon.classList.add('fa-sun'); // Show sun icon for dark mode
+        } else {
+          body.classList.remove('dark-mode');
+          modeIcon.classList.remove('fa-sun');
+          modeIcon.classList.add('fa-moon'); // Show moon icon for light mode
+        }
+      }
+
+      // Initial theme application
+      applyTheme();
+
+      // Welcome message animation
+      welcomeMessage.style.display = 'block'; 
+      setTimeout(() => {
+        welcomeMessage.classList.add('show'); 
+      }, 100); 
+      setTimeout(() => {
+        welcomeMessage.classList.remove('show'); 
+        setTimeout(() => {
+          welcomeMessage.style.display = 'none'; 
+          welcomeMessage.style.top = '-100px'; 
+        }, 700);
+      }, 3000);
+
+      // Function to simulate fetching weather data
+      function fetchWeather() {
+        const temperatureElement = document.getElementById('temperature');
+        const cityElement = document.getElementById('weatherCity');
+        
+        // Simulate a random temperature
+        const randomTemp = (Math.random() * (35 - 25) + 25).toFixed(1); // Between 25 and 35
+        
+        temperatureElement.textContent = `${randomTemp}°C`;
+        cityElement.textContent = "Boisar Palghar";
+      }
+
+      // Initial weather fetch on load
+      fetchWeather();
+
+      // Add event listener to the refresh button
+      document.getElementById('refreshWeather').addEventListener('click', fetchWeather);
+
+      // Dark/Light mode toggle functionality
+      modeToggle.addEventListener('click', () => {
+        if (body.classList.contains('dark-mode')) {
+          body.classList.remove('dark-mode');
+          localStorage.setItem('theme', 'light');
+          modeIcon.classList.remove('fa-sun');
+          modeIcon.classList.add('fa-moon'); // Switch to moon icon
+        } else {
+          body.classList.add('dark-mode');
+          localStorage.setItem('theme', 'dark');
+          modeIcon.classList.remove('fa-moon');
+          modeIcon.classList.add('fa-sun'); // Switch to sun icon
+        }
+      });
+
+      // --- Scroll Animation Logic ---
+      const animatedElements = document.querySelectorAll('.scroll-animate');
+
+      const observerOptions = {
+        root: null, /* viewport as the root */
+        rootMargin: '0px',
+        threshold: 0.1 /* 10% of the element must be visible */
+      };
+
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            /* Optionally, stop observing after animation to prevent re-triggering */
+            observer.unobserve(entry.target); 
+          }
+        });
+      }, observerOptions);
+
+      animatedElements.forEach(element => {
+        observer.observe(element);
+      });
+
+      // --- Scroll to Top Button Logic ---
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) { /* Show button after scrolling 300px */
+          scrollToTopBtn.style.display = 'flex'; /* Use flex to ensure centering */
+        } else {
+          scrollToTopBtn.style.display = 'none';
+        }
+      });
+
+      scrollToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth' /* Smooth scroll to top */
+        });
+      });
+
+      // --- Gallery Carousel Logic ---
+      const galleryScroller = document.querySelector('.gallery-scroller');
+      const galleryItems = document.querySelectorAll('.gallery-item');
+      // Removed prevBtn and nextBtn as they are no longer needed
+      // const prevBtn = document.getElementById('galleryPrevBtn');
+      // const nextBtn = document.getElementById('galleryNextBtn');
+
+      let currentIndex = 0;
+      // Calculate item width including margin-right (280px width + 20px margin)
+      const itemWidth = 300; 
+      const totalItems = galleryItems.length;
+
+      // Removed updateGalleryPosition function as it's tied to buttons
+      // function updateGalleryPosition() {
+      //   galleryScroller.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+      // }
+
+      // Removed button event listeners
+      // nextBtn.addEventListener('click', () => {
+      //   currentIndex++;
+      //   if (currentIndex >= totalItems) {
+      //     currentIndex = 0; // Loop back to the start
+      //   }
+      //   updateGalleryPosition();
+      // });
+
+      // prevBtn.addEventListener('click', () => {
+      //   currentIndex--;
+      //   if (currentIndex < 0) {
+      //     currentIndex = totalItems - 1; // Loop to the end
+      //   }
+      //   updateGalleryPosition();
+      // });
+
+      // Auto-scroll functionality (can be uncommented if desired)
+      let autoScrollInterval = setInterval(() => {
+        currentIndex++;
+        if (currentIndex >= totalItems) {
+          currentIndex = 0; // Loop back to the start
+        }
+        galleryScroller.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+      }, 3000); // Change card every 3 seconds
+
+      // Pause auto-scroll on hover
+      galleryScroller.addEventListener('mouseenter', () => {
+        clearInterval(autoScrollInterval);
+      });
+
+      galleryScroller.addEventListener('mouseleave', () => {
+        autoScrollInterval = setInterval(() => {
+          currentIndex++;
+          if (currentIndex >= totalItems) {
+            currentIndex = 0; // Loop back to the start
+          }
+          galleryScroller.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+        }, 3000);
+      });
+
+    };
+  </script>
+</head>
+<body>
+  <div id="welcomeMessage" style="display: none;">
+    <p>Welcome to My Portfolio!</p>
+  </div>
+
+  <header>
+    <div class="photo">
+      </div>
+    <button id="modeToggle"><i class="fas fa-moon"></i></button> </header>
+
+  <div class="weather-widget">
+    <h3>Current Weather</h3>
+    <span class="temperature" id="temperature">--°C</span>
+    <span class="city" id="weatherCity">Loading...</span>
+    <button id="refreshWeather">Refresh</button>
+  </div>
+
+  <section class="scrolling-text-section">
+    <div class="scrolling-text-content">
+      Welcome to Shivam's Portfolio! Explore my work and connect with me. Happy to build amazing web experiences!        Welcome to Shivam's Portfolio! Explore my work and connect with me. Happy to build amazing web experiences!
+    </div>
+  </section>
+
+  <section class="about">
+    <div class="container">
+      <img src="E:\intern\Shivam_photo.jpg" alt="Your Photo"
+        style="width: 200px; height: auto; border: 3px solid #fff; box-shadow: 0 4px 8px rgb(0, 0, 0) ; border-radius: 5%">
+      <h2>About Me</h2>
+      <p>I am <strong>Shivam Kushwaha</strong>, a passionate WEB DEVELOPER with experience in building responsive websites and web
+        applications.<br> I specialize in HTML, CSS, JavaScript, and enjoy bringing creative designs to life.</p>
+      
+      <h3>Details:</h3>
+      <ul>
+        <li><strong>Name:</strong> Shivam Kushwaha</li>
+        <li><strong>Location:</strong> Boisar Palghar M.H - 401 504</li>
+        <li><strong>Education:</strong> B.Tech ( Computer Engineering )</li>
+        <li><strong>Speaking languages Known:</strong> Hindi, English</li>
+        <li><strong>Coding languages Known:</strong>C, C++, Python, JavaScript, Java</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="video">
+    <div class="container">
+      <h2>Introduction Video</h2>
+      <iframe src="http://www.youtube.com/watch?v=bnsKXB_5YIY" frameborder="0" allowfullscreen style="width: 100%; height: 315px; border-radius: 8px;"></iframe>
+    </div>
+  </section>
+
+  <section class="projects">
+    <div class="container">
+      <h2>Projects</h2>
+      <div class="project">
+        <h3>Online Shopping</h3>
+         <p> This project is a simple yet   functional  online shopping web page that  allows users to browse products, add items to a cart, and proceed to checkout. The aim was to understand front-end development and simulate the user experience of an   e-commerce platform. <br>
+
+           <h3> Technologies Used:</h3>
+            HTML, CSS, JavaScript
+            (Optional: Bootstrap / React / Firebase – agar use kiya ho to add karo)
+
+           <h3> My Role:</h3>
+            Designed and developed the entire front-end of the website, including layout, styling, interactivity, and responsive design.
+
+           <h3> Key Features:</h3>
+
+            Product listing with images, names, and prices. <br>
+
+            Add to cart and remove from cart functionality. <br>
+
+            Shopping cart view with total calculation. <br>
+
+            Responsive layout for mobile and desktop screens. <br>
+
+            (<strong>Optional:</strong> Search bar / filter / checkout form). <br>
+
+           <h3> Outcome:</h3>
+            Successfully implemented and tested in a browser environment. Helped build strong fundamentals in HTML, CSS, and JavaScript. Can be extended into a full e-commerce application with backend integration.</p>
+      </div>
+      <div class="project">
+        <!-- <h3>Another Project Title</h3>
+        <p>Description of your other project.</p> -->
+      </div>
+    </div>
+  </section>
+
+  <section class="achievements scroll-animate"> 
+    <div class="container">
+      <h2>Achievements</h2>
+      <div class="achievement-cards-container">
+        <div class="achievement-card">
+          <h3>Web Development Intern</h3>
+          <p>Successfully completed a 3-month internship, contributing to the development of a responsive e-commerce platform using HTML, CSS, and JavaScript.</p>
+          <span class="achievement-date">May 2024 - Aug 2024</span>
+        </div>
+
+        <div class="achievement-card">
+          <h3>College Project Lead</h3>
+          <p>Led a team of 4 to develop a secure online voting system, showcasing strong leadership and technical skills in database management and backend development.</p>
+          <span class="achievement-date">Dec 2023</span>
+        </div>
+
+        <div class="achievement-card">
+          <h3>Certified JavaScript Developer</h3>
+          <p>Obtained certification in advanced JavaScript concepts, demonstrating proficiency in modern web development practices and frameworks.</p>
+          <span class="achievement-date">Feb 2024</span>
+        </div>
+
+        <div class="achievement-card">
+          <h3>Hackathon Finalist</h3>
+          <p>Secured a finalist position in a national hackathon, developing an an innovative solution for smart city management using IoT integration.</p>
+          <span class="achievement-date">Nov 2023</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="future-goals scroll-animate"> 
+    <div class="container">
+      <h2>Future Goals</h2>
+      <div class="achievement-cards-container"> 
+        <div class="future-goal-card">
+          <img src="https://placehold.co/80x80/FFD700/FFFFFF?text=Innovate" alt="Innovation Icon"> 
+          <h3>Innovator in Web Technologies</h3>
+          <p>My aim is to continuously learn and and apply cutting-edge web technologies to build impactful and user-centric digital solutions that solve real-world problems.</p>
+        </div>
+
+        <div class="future-goal-card">
+          <img src="https://placehold.co/80x80/4682B4/FFFFFF?text=Community" alt="Community Icon"> 
+          <h3>Contributing to Open Source & Community</h3>
+          <p>I aspire to contribute actively to open-source projects, share knowledge through blogging and workshops, and mentor aspiring developers to foster a collaborative and inclusive tech community.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="personal-side scroll-animate"> 
+    <div class="container">
+      <h2>Personal Side</h2>
+      <div class="personal-cards-scroll-container"> 
+        <div class="personal-card">
+          <img src="https://placehold.co/80x80/8BC34A/FFFFFF?text=Hobbies" alt="Hobbies Icon">
+          <h3>Hobbies & Passions</h3>
+          <p>I love **reading sci-fi novels** as they spark creativity and offer new perspectives. **Playing chess** sharpens my strategic thinking, and **hiking** helps me connect with nature and clear my mind.</p>
+        </div>
+
+        <div class="personal-card">
+          <img src="https://placehold.co/80x80/9C27B0/FFFFFF?text=Inspire" alt="Inspiration Icon">
+          <h3>Inspirations & Resources</h3>
+          <p>My role model is **Elon Musk** for his relentless pursuit of innovation. I frequently visit **Medium.com** for tech articles and admire startups like **Stripe** for their seamless solutions. My favorite book is "Sapiens" for its profound insights.</p>
+        </div>
+
+        <div class="personal-card">
+          <img src="https://placehold.co/80x80/00BCD4/FFFFFF?text=Volunteer" alt="Volunteering Icon">
+          <h3>Volunteering & Community</h3>
+          <p>I actively volunteer at local tech meetups, assisting with event organization and mentoring junior developers. I believe in giving back to the community that has supported my growth.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="location-map">
+    <div class="container">
+      <h2>My Location</h2>
+      <div class="map-container">
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15049.508540899386!2d72.76615795!3d19.78912185!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7234850c9003f%3A0x19451124e930960!2sBoisar%2C%20Palghar%2C%20Maharashtra%20401504!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" 
+          allowfullscreen="" 
+          loading="lazy" 
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <section class="gallery-section scroll-animate">
+    <div class="container">
+      <h2>My Gallery</h2>
+      <div class="gallery-container">
+        <div class="gallery-scroller">
+          <div class="gallery-item">
+            <img src="https://placehold.co/400x200/FF5733/FFFFFF?text=Image+1" alt="गैलरी छवि 1">
+            <div class="gallery-item-title">प्रोजेक्ट अल्फा</div>
+          </div>
+          <div class="gallery-item">
+            <img src="https://placehold.co/400x200/33FF57/FFFFFF?text=Image+2" alt="गैलरी छवि 2">
+            <div class="gallery-item-title">डिजाइन शोकेस</div>
+          </div>
+          <div class="gallery-item">
+            <img src="https://placehold.co/400x200/3357FF/FFFFFF?text=Image+3" alt="गैलरी छवि 3">
+            <div class="gallery-item-title">विकास कार्य</div>
+          </div>
+          <div class="gallery-item">
+            <img src="https://placehold.co/400x200/FF33A1/FFFFFF?text=Image+4" alt="गैलरी छवि 4">
+            <div class="gallery-item-title">रचनात्मक प्रयास</div>
+          </div>
+          <div class="gallery-item">
+            <img src="https://placehold.co/400x200/A133FF/FFFFFF?text=Image+5" alt="गैलरी छवि 5">
+            <div class="gallery-item-title">वेब समाधान</div>
+          </div>
+          <div class="gallery-item">
+            <img src="https://placehold.co/400x200/33FFF6/FFFFFF?text=Image+6" alt="गैलरी छवि 6">
+            <div class="gallery-item-title">यूआई/यूएक्स अवधारणाएं</div>
+          </div>
+        </div>
+      </div>
+      </div>
+  </section>
+
+  <section class="contact-form-section">
+    <div class="container">
+      <h2>Contact Us</h2> 
+      <div class="contact-form">
+        <form action="#" method="POST">
+          <input type="text" id="name" name="name" placeholder="Name" required>
+          <input type="email" id="email" name="email" placeholder="Email" required>
+          <textarea id="message" name="message" rows="6" placeholder="Message" required></textarea>
+          <button type="submit">Send</button> 
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact">
+    <div class="container">
+      <h2>Contact Me</h2>
+      <p>Email: <a href="mailto:123shivam2052@sjcem.edu.in">123shivam2052@sjcem.edu.in</a></p>
+      <p>Phone: <a href="https://wa.me/qr/5HJSHQT7F2I5N1" target="_blank">+91 8856803602</a></p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="social-icons">
+        <a href="https://www.instagram.com/shivam_kushwaha_2405?igsh=bnh3OGFkd3UxN2Nz" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.linkedin.com/in/shivam-kushwaha-b01bb8348/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://twitter.com/your_twitter_handle" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="https://t.me/your_telegram_handle" target="_blank" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+        <a href="https://github.com/shivamkushwaha2003" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+      </div>
+      <p>© 2025 Shivam Kushwaha. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <button id="scrollToTopBtn" title="Go to top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+</body>
+</html>

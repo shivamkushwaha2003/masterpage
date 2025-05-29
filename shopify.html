@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Trendy Shop</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      scroll-behavior: smooth;
+    }
+    .hover-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .hover-card:hover {
+      transform: translateY(-5px) scale(1.03);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+    .fade-in {
+      animation: fadeIn 0.8s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .slide-in-right {
+      animation: slideInRight 0.5s ease-out;
+    }
+    @keyframes slideInRight {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    .dark-mode {
+      background-color: #1242a4;
+      color: #edf2f7;
+    }
+    /* Smaller product cards */
+    .product-card {
+      max-width: 200px;
+    }
+    .product-card img {
+      height: 150px !important;
+    }
+    /* Custom dropdown styles */
+    select {
+      background-color: #f34663b2; /* Tailwind pink-500 */
+      color: white;
+      border: #1a202c;
+      border-radius: 0.375rem; /* rounded-md */
+      padding-left: 0.75rem; /* px-3 */
+      padding-right: 0.75rem;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    select:focus {
+      outline: 2px solid #db2777; /* pink-700 */
+      outline-offset: 2px;
+      background-color: #db2777;
+    }
+    /* Dropdown arrow */
+    select {
+      background-image: url("data:image/svg+xml;charset=US-ASCII,%3csvg%20width%3d%2214%22%20height%3d%2214%22%20viewBox%3d%220%200%2014%2014%22%20xmlns%3d%22http://www.w3.org/2000/svg%22%3e%3cpath%20d%3d%22M4%205l3%203%203-3%22%20stroke%3d%22white%22%20stroke-width%3d%222%22%20fill%3d%22none%22%20fill-rule%3d%22evenodd%22/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 0.5rem center;
+      background-size: 1em;
+    }
+    option {
+      font-weight: 600;
+      color: rgba(24, 12, 17, 0.832);
+      background-color: rgba(243, 240, 240, 0.894);
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800 transition-all duration-300" id="body">
+  <nav class="bg-white dark:bg-gray-900 shadow fixed w-full z-20 top-0 left-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between h-16 items-center">
+      <a href="#" class="text-2xl font-bold text-pink-600">Trendy Tees</a>
+      <div class="hidden md:flex space-x-6 items-center">
+        <a href="#" class="hover:text-pink-600 transition">Home</a>
+        <a href="#products" class="hover:text-pink-600 transition">Products</a>
+        <button id="cartBtn" aria-label="Open cart" class="relative">
+          <svg class="w-6 h-6 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
+            viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.98-1.75L23 6H6"></path></svg>
+          <span id="cartCount" class="absolute -top-2 -right-2 bg-pink-600 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">0</span>
+        </button>
+        <button id="themeToggle" aria-label="Toggle theme" class="ml-4 text-pink-600 hover:text-pink-800">
+          🌙
+        </button>
+      </div>
+      <button id="mobileMenuBtn" aria-label="Toggle menu" class="md:hidden text-gray-700 dark:text-gray-300">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
+          viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+      </button>
+    </div>
+    <div id="mobileMenu" class="hidden md:hidden bg-white dark:bg-gray-900 px-4 pt-2 pb-4 space-y-2">
+      <a href="#" class="block py-1 hover:text-pink-600">Home</a>
+      <a href="#products" class="block py-1 hover:text-pink-600">Products</a>
+      <button id="mobileCartBtn" class="w-full text-left py-1 text-pink-600 font-semibold">Cart (<span id="mobileCartCount">0</span>)</button>
+      <button id="mobileThemeToggle" class="w-full text-left py-1 text-pink-600 font-semibold">Toggle Theme</button>
+    </div>
+  </nav>
+
+  <section class="relative bg-gradient-to-r from-pink-500 via-red-500 to-yellow-400 h-64 flex items-center justify-center text-white mt-16 rounded-b-lg overflow-hidden">
+    <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1470&q=80" 
+         alt="Trendy fashion banner" 
+         class="absolute inset-0 w-full h-full object-cover opacity-60" loading="lazy"/>
+    <div class="relative z-10 text-center max-w-3xl px-4">
+      <h1 class="text-4xl md:text-5xl font-extrabold mb-4 drop-shadow-lg">Trendy Tees for Everyone</h1>
+      <p class="text-lg md:text-xl drop-shadow-md">Style that fits your vibe & mood</p>
+    </div>
+  </section>
+
+  <section class="max-w-7xl mx-auto px-4 my-6 flex flex-wrap gap-4 justify-center items-center">
+    <input type="text" id="searchInput" placeholder="Search products..." 
+           class="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500 flex-grow max-w-sm" />
+    <select id="filterCategory" aria-label="Filter by Category">
+      <option value="all">All Categories</option>
+      <option value="Men">Men</option>
+      <option value="Women">Women</option>
+      <option value="Kids">Kids</option>
+      <option value="Sports">Sports</option>
+    </select>
+    <select id="filterBrand" aria-label="Filter by Brand">
+      <option value="all">All Brands</option>
+      <option value="BrandA">BrandA</option>
+      <option value="BrandB">BrandB</option>
+      <option value="BrandC">BrandC</option>
+    </select>
+    <select id="filterPrice" aria-label="Filter by Price">
+      <option value="all">All Prices</option>
+      <option value="0-500">₹0 - ₹500</option>
+      <option value="501-1000">₹501 - ₹1000</option>
+      <option value="1001-5000">₹1001 - ₹5000</option>
+    </select>
+  </section>
+
+  <section class="max-w-7xl mx-auto px-4 mb-8">
+    <h2 class="text-3xl font-bold mb-6 text-center">Shop by Category</h2>
+    <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-4 text-center">
+      <div class="hover-card p-4 bg-white dark:bg-gray-800 rounded-xl shadow-lg cursor-pointer">
+        <img src="https://m.media-amazon.com/images/I/611V128Mm1L._SY741_.jpg" alt="Kids Section" class="mx-auto mb-2 rounded" />
+        <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Kids</h3>
+        <p class="text-gray-600 dark:text-gray-400">Playful and comfy styles</p>
+      </div>
+      <div class="hover-card p-4 bg-white dark:bg-gray-800 rounded-xl shadow-lg cursor-pointer">
+        <img src="https://m.media-amazon.com/images/I/71Rv-MdyqaL._SY741_.jpg" alt="Girls Section" class="mx-auto mb-2 rounded" />
+        <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Girls</h3>
+        <p class="text-gray-600 dark:text-gray-400">Trendy & colorful picks</p>
+      </div>
+      <div class="hover-card p-4 bg-white dark:bg-gray-800 rounded-xl shadow-lg cursor-pointer">
+        <img src="https://m.media-amazon.com/images/I/31WT3X-vk8L._SX342_SY445_.jpg" alt="Boys Section" class="mx-auto mb-2 rounded" />
+        <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Boys</h3>
+        <p class="text-gray-600 dark:text-gray-400">Bold and comfy outfits</p>
+      </div>
+      <div class="hover-card p-4 bg-white dark:bg-gray-800 rounded-xl shadow-lg cursor-pointer">
+        <img src="https://m.media-amazon.com/images/I/71yVa19ERtL._SY879_.jpg" alt="Sports Section" class="mx-auto mb-2 rounded" />
+        <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Sports</h3>
+        <p class="text-gray-600 dark:text-gray-400">Performance ready tees</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="products" class="max-w-7xl mx-auto px-4 mb-16 grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 justify-center">
+    </section>
+
+  <aside id="cartSidebar" class="fixed top-0 right-0 w-80 max-w-full h-full bg-white dark:bg-gray-900 shadow-lg transform translate-x-full transition-transform duration-300 z-30 flex flex-col">
+    <header class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+      <h2 class="text-xl font-bold text-pink-600">Your Cart</h2>
+      <button id="closeCartBtn" aria-label="Close cart" class="text-gray-700 dark:text-gray-300 hover:text-pink-600 text-2xl font-bold">×</button>
+    </header>
+    <main class="flex-1 overflow-y-auto p-4" id="cartItemsContainer">
+      <p class="text-gray-600 dark:text-gray-400">Your cart is empty.</p>
+    </main>
+    <footer class="p-4 border-t border-gray-200 dark:border-gray-700">
+      <div class="flex justify-between mb-4">
+        <span class="font-semibold">Total:</span>
+        <span id="cartTotalDisplay" class="font-bold text-pink-600">₹0</span>
+      </div>
+      <button id="checkoutBtn" class="w-full py-2 bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-md transition">Checkout</button>
+    </footer>
+  </aside>
+
+  <button id="scrollTopBtn" aria-label="Scroll to top" 
+          class="fixed bottom-6 right-6 bg-pink-600 text-white p-3 rounded-full shadow-lg opacity-0 pointer-events-none transition-opacity duration-300 hover:bg-pink-700 z-20">
+    ↑
+  </button>
+
+  <footer class="bg-gray-800 dark:bg-gray-950 text-gray-300 py-8 mt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div>
+        <h3 class="text-xl font-bold text-white mb-4">Trendy Tees</h3>
+        <p class="text-sm">Your one-stop shop for the latest and trendiest apparel. We offer high-quality tees for every style and occasion.</p>
+      </div>
+      <div>
+        <h3 class="text-xl font-bold text-white mb-4">Quick Links</h3>
+        <ul class="space-y-2">
+          <li><a href="#" class="hover:text-pink-600 transition text-sm">Home</a></li>
+          <li><a href="#products" class="hover:text-pink-600 transition text-sm">Products</a></li>
+          <li><a href="#" class="hover:text-pink-600 transition text-sm">About Us</a></li>
+          <li><a href="#" class="hover:text-pink-600 transition text-sm">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-xl font-bold text-white mb-4">Connect With Us</h3>
+        <ul class="space-y-2">
+          <li><a href="#" class="hover:text-pink-600 transition text-sm">Email: info@trendytees.com</a></li>
+          <li><a href="#" class="hover:text-pink-600 transition text-sm">Phone: +1 234 567 8900</a></li>
+          <li class="flex space-x-3 mt-4">
+            <a href="#" aria-label="Facebook" class="text-gray-400 hover:text-pink-600 transition">
+              <svg fill="currentColor" viewBox="0 0 24 24" class="h-6 w-6"><path d="M12 2.04c-5.46 0-9.92 4.46-9.92 9.92 0 4.36 3.01 8.01 6.99 8.92V14.1h-2.39V11.7h2.39v-1.8c0-2.37 1.45-3.66 3.56-3.66 1.01 0 1.88.07 2.13.1v2.47h-1.47c-1.15 0-1.37.55-1.37 1.35V11.7h2.74l-.45 2.4h-2.29v5.78c3.98-.91 6.99-4.56 6.99-8.92.01-5.46-4.45-9.92-9.91-9.92z"></path></svg>
+            </a>
+            <a href="#" aria-label="Twitter" class="text-gray-400 hover:text-pink-600 transition">
+              <svg fill="currentColor" viewBox="0 0 24 24" class="h-6 w-6"><path d="M22.46 6c-.77.34-1.6.56-2.46.66.89-.53 1.57-1.37 1.89-2.37-.83.49-1.75.85-2.73 1.04C18.3 4.2 17.1 3.5 15.8 3.5c-2.37 0-4.3 1.93-4.3 4.3 0 .34.04.67.11.99C7.1 9.2 4.17 7.6 2.11 4.9c-.37.64-.58 1.39-.58 2.19 0 1.49.76 2.8 1.92 3.56-.7-.02-1.36-.21-1.93-.5v.05c0 2.09 1.49 3.83 3.47 4.22-.36.1-.74.15-1.13.15-.28 0-.55-.03-.81-.08.55 1.72 2.14 2.97 4.02 3.04-1.48 1.16-3.35 1.85-5.38 1.85-.35 0-.7-.02-1.04-.06 1.92 1.23 4.19 1.95 6.64 1.95 8 0 12.37-6.63 12.37-12.37V6c.85-.61 1.58-1.37 2.17-2.26z"></path></svg>
+            </a>
+            <a href="#" aria-label="Instagram" class="text-gray-400 hover:text-pink-600 transition">
+              <svg fill="currentColor" viewBox="0 0 24 24" class="h-6 w-6"><path d="M7.8 2h8.4C18.14 2 20 3.86 20 6.2v8.4c0 2.34-1.86 4.2-4.2 4.2H7.8C5.46 20 3.6 18.14 3.6 15.8V7.8C3.6 5.46 5.46 3.6 7.8 3.6zm0-1.6C4.52 2 2 4.52 2 7.8v8.4C2 19.48 4.52 22 7.8 22h8.4c3.28 0 5.8-2.52 5.8-5.8V7.8C22 4.52 19.48 2 16.2 2H7.8z"></path><path d="M12 7.5c-2.49 0-4.5 2.01-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5zm0 8.5c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"></path><circle cx="17.25" cy="6.75" r="1.25"></circle></svg>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-gray-700 dark:border-gray-800 mt-8 pt-4 text-center text-sm text-gray-500">
+      &copy; <span id="currentYear"></span> Trendy Tees. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    // Product data
+    const products = [
+      { id: 1, name: 'Classic White Tee', price: 499, category: 'Men', brand: 'BrandA', img: 'https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=400&q=80' },
+      { id: 2, name: 'Black Slim Fit', price: 799, category: 'Men', brand: 'BrandB', img: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=400&q=80' },
+      { id: 3, name: 'Blue Denim Jacket', price: 1499, category: 'Men', brand: 'BrandC', img: 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=400&q=80' },
+      { id: 4, name: 'Floral Summer Dress', price: 999, category: 'Women', brand: 'BrandA', img: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=400&q=80' },
+      { id: 5, name: 'Red Hoodie', price: 1200, category: 'Women', brand: 'BrandB', img: 'https://m.media-amazon.com/images/I/51NzQj9CavL._SY741_.jpg' },
+      { id: 6, name: 'Sports Tee', price: 699, category: 'Sports', brand: 'BrandC', img: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=400&q=80' },
+      { id: 7, name: 'Kids Cartoon Tee', price: 399, category: 'Kids', brand: 'BrandA', img: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=400&q=80' },
+      { id: 8, name: 'Girls Pink Tee', price: 599, category: 'Women', brand: 'BrandB', img: 'https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=400&q=80' },
+      { id: 9, name: 'Boys Casual Shirt', price: 849, category: 'Men', brand: 'BrandC', img: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=400&q=80' },
+      { id: 10, name: 'Athletic Shorts', price: 799, category: 'Sports', brand: 'BrandA', img: 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=400&q=80' },
+      { id: 11, name: 'Pink Crop Top', price: 650, category: 'Women', brand: 'BrandB', img: 'https://m.media-amazon.com/images/I/61wQ16+nMXL._SY741_.jpg' },
+      { id: 12, name: 'Kids Hoodie', price: 499, category: 'Kids', brand: 'BrandC', img: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=400&q=80' },
+      // Additional products
+      { id: 13, name: 'Green Polo Shirt', price: 899, category: 'Men', brand: 'BrandA', img: 'https://images.unsplash.com/photo-1588880331179-bc9b93a8db57?auto=format&fit=crop&w=400&q=80' },
+      { id: 14, name: 'Striped T-Shirt', price: 550, category: 'Women', brand: 'BrandC', img: 'https://images.unsplash.com/photo-1554568212-cb0326161405?auto=format&fit=crop&w=400&q=80' },
+      { id: 15, name: 'Basketball Jersey', price: 1199, category: 'Sports', brand: 'BrandB', img: 'https://images.unsplash.com/photo-1579952544274-13195304620f?auto=format&fit=crop&w=400&q=80' },
+      { id: 16, name: 'Unicorn Kids Tee', price: 450, category: 'Kids', brand: 'BrandA', img: 'https://images.unsplash.com/photo-1598284501250-388147814b2e?auto=format&fit=crop&w=400&q=80' },
+      { id: 17, name: 'Formal Shirt', price: 1300, category: 'Men', brand: 'BrandB', img: 'https://images.unsplash.com/photo-1603252109350-20202958414a?auto=format&fit=crop&w=400&q=80' },
+      { id: 18, name: 'Summer Blouse', price: 750, category: 'Women', brand: 'BrandA', img: 'https://images.unsplash.com/photo-1596755094406-269222384976?auto=format&fit=crop&w=400&q=80' }
+    ];
+
+    // DOM elements
+    const productsContainer = document.querySelector('#products');
+    const cartBtn = document.getElementById('cartBtn');
+    const cartSidebar = document.getElementById('cartSidebar');
+    const closeCartBtn = document.getElementById('closeCartBtn');
+    const cartItemsContainer = document.getElementById('cartItemsContainer');
+    const cartCount = document.getElementById('cartCount');
+    const mobileCartCount = document.getElementById('mobileCartCount');
+    const checkoutBtn = document.getElementById('checkoutBtn');
+
+    const searchInput = document.getElementById('searchInput');
+    const filterCategory = document.getElementById('filterCategory');
+    const filterBrand = document.getElementById('filterBrand');
+    const filterPrice = document.getElementById('filterPrice');
+
+    const themeToggle = document.getElementById('themeToggle');
+    const mobileThemeToggle = document.getElementById('mobileThemeToggle');
+
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileCartBtn = document.getElementById('mobileCartBtn');
+
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+    let cart = JSON.parse(localStorage.getItem('cart')) || {};
+
+    // Render products based on filters and search
+    function renderProducts() {
+      const searchTerm = searchInput.value.toLowerCase();
+      const categoryFilter = filterCategory.value;
+      const brandFilter = filterBrand.value;
+      const priceFilter = filterPrice.value;
+
+      const filtered = products.filter(product => {
+        const matchesSearch = product.name.toLowerCase().includes(searchTerm);
+        const matchesCategory = categoryFilter === 'all' || product.category === categoryFilter;
+        const matchesBrand = brandFilter === 'all' || product.brand === brandFilter;
+        let matchesPrice = true;
+        if (priceFilter !== 'all') {
+          const [min, max] = priceFilter.split('-').map(Number);
+          matchesPrice = product.price >= min && product.price <= max;
+        }
+        return matchesSearch && matchesCategory && matchesBrand && matchesPrice;
+      });
+
+      productsContainer.innerHTML = filtered.length === 0
+        ? '<p class="col-span-full text-center text-gray-600 dark:text-gray-400">No products found.</p>'
+        : filtered.map(product => `
+          <article class="product-card bg-white dark:bg-gray-700 rounded-lg shadow p-4 flex flex-col hover-card fade-in max-w-[200px]">
+            <img loading="lazy" src="${product.img}" alt="${product.name}" class="w-full h-[150px] object-cover rounded-md mb-4" />
+            <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">${product.name}</h3>
+            <p class="text-pink-600 font-bold mb-2">₹${product.price}</p>
+            <button aria-label="Add ${product.name} to cart" class="add-to-cart bg-pink-600 hover:bg-pink-700 text-white rounded-md py-2 font-semibold transition" data-id="${product.id}">Add to Cart</button>
+          </article>
+        `).join('');
+    }
+
+    // Update cart count badges
+    function updateCartCount() {
+      const count = Object.values(cart).reduce((acc, qty) => acc + qty, 0);
+      cartCount.textContent = count;
+      mobileCartCount.textContent = count;
+    }
+
+    // Save cart to localStorage
+    function saveCart() {
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+    }
+
+    // Render cart items
+    function renderCart() {
+      if (Object.keys(cart).length === 0) {
+        cartItemsContainer.innerHTML = `<p class="text-gray-600 dark:text-gray-400">Your cart is empty.</p>`;
+        document.getElementById('cartTotalDisplay').textContent = '₹0';
+        return;
+      }
+      let total = 0;
+      let html = '';
+      for (const productId in cart) {
+        const qty = cart[productId];
+        const product = products.find(p => p.id == productId);
+        const itemTotal = product.price * qty;
+        total += itemTotal;
+
+        html += `
+          <div class="flex items-center justify-between mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+            <div class="flex items-center space-x-3">
+              <img src="${product.img}" alt="${product.name}" class="w-16 h-16 object-cover rounded" loading="lazy" />
+              <div>
+                <h4 class="font-semibold text-gray-900 dark:text-gray-100">${product.name}</h4>
+                <p class="text-pink-600 font-bold">₹${product.price}</p>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2">
+              <button aria-label="Decrease quantity" class="decrease-qty bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded px-2 font-bold" data-id="${product.id}">−</button>
+              <span class="font-semibold">${qty}</span>
+              <button aria-label="Increase quantity" class="increase-qty bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded px-2 font-bold" data-id="${product.id}">+</button>
+              <button aria-label="Remove item" class="remove-item ml-2 text-pink-600 hover:text-pink-800 font-bold" data-id="${product.id}">×</button>
+            </div>
+          </div>
+        `;
+      }
+      cartItemsContainer.innerHTML = html;
+      document.getElementById('cartTotalDisplay').textContent = `₹${total}`;
+    }
+
+    // Add product to cart
+    function addToCart(id) {
+      if (cart[id]) {
+        cart[id]++;
+      } else {
+        cart[id] = 1;
+      }
+      saveCart();
+      renderCart();
+      openCart();
+    }
+
+    // Remove product from cart
+    function removeFromCart(id) {
+      delete cart[id];
+      saveCart();
+      renderCart();
+    }
+
+    // Change quantity in cart
+    function changeQuantity(id, delta) {
+      if (!cart[id]) return;
+      cart[id] += delta;
+      if (cart[id] <= 0) {
+        removeFromCart(id);
+      } else {
+        saveCart();
+        renderCart();
+      }
+    }
+
+    // Open and close cart sidebar
+    function openCart() {
+      cartSidebar.classList.remove('translate-x-full');
+      cartSidebar.classList.add('translate-x-0');
+    }
+    function closeCart() {
+      cartSidebar.classList.add('translate-x-full');
+      cartSidebar.classList.remove('translate-x-0');
+    }
+
+    // Event listeners
+    document.addEventListener('click', e => {
+      // Add to cart buttons
+      if (e.target.classList.contains('add-to-cart')) {
+        addToCart(e.target.dataset.id);
+      }
+      // Remove item from cart
+      if (e.target.classList.contains('remove-item')) {
+        removeFromCart(e.target.dataset.id);
+      }
+      // Increase qty
+      if (e.target.classList.contains('increase-qty')) {
+        changeQuantity(e.target.dataset.id, 1);
+      }
+      // Decrease qty
+      if (e.target.classList.contains('decrease-qty')) {
+        changeQuantity(e.target.dataset.id, -1);
+      }
+    });
+
+    cartBtn.addEventListener('click', () => {
+      renderCart();
+      openCart();
+    });
+
+    closeCartBtn.addEventListener('click', closeCart);
+
+    // Filters and search
+    [searchInput, filterCategory, filterBrand, filterPrice].forEach(el => {
+      el.addEventListener('input', renderProducts);
+    });
+
+    // Theme toggle
+    function setTheme(dark) {
+      const body = document.getElementById('body');
+      if (dark) {
+        body.classList.add('dark');
+        body.classList.add('dark-mode');
+        themeToggle.textContent = '☀️';
+        localStorage.setItem('theme', 'dark');
+      } else {
+        body.classList.remove('dark');
+        body.classList.remove('dark-mode');
+        themeToggle.textContent = '🌙';
+        localStorage.setItem('theme', 'light');
+      }
+    }
+    themeToggle.addEventListener('click', () => {
+      const isDark = document.body.classList.contains('dark');
+      setTheme(!isDark);
+    });
+    mobileThemeToggle.addEventListener('click', () => {
+      const isDark = document.body.classList.contains('dark');
+      setTheme(!isDark);
+      mobileMenu.classList.add('hidden');
+    });
+
+    // Mobile menu toggle
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    mobileCartBtn.addEventListener('click', () => {
+      renderCart();
+      openCart();
+      mobileMenu.classList.add('hidden');
+    });
+
+    // Scroll to top button
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        scrollTopBtn.classList.remove('opacity-0', 'pointer-events-none');
+      } else {
+        scrollTopBtn.classList.add('opacity-0', 'pointer-events-none');
+      }
+    });
+    scrollTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // On load
+    window.onload = () => {
+      renderProducts();
+      updateCartCount();
+
+      // Load theme from localStorage
+      if (localStorage.getItem('theme') === 'dark') {
+        setTheme(true);
+      } else {
+        setTheme(false);
+      }
+      // Set current year in footer
+      document.getElementById('currentYear').textContent = new Date().getFullYear();
+    };
+  </script>
+</body>
+</html>

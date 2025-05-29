@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Awesome Links</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Basic Resets & Font */
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #000000; /* Changed background color to black */
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to top */
+            min-height: 100vh; /* Full viewport height */
+            padding: 20px 0; /* Padding for small screens */
+            box-sizing: border-box; /* Include padding in element's total width and height */
+        }
+
+        .container {
+            width: 100%;
+            max-width: 960px; /* Max width for content */
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top: 50px; /* Space from top */
+            margin-bottom: 50px; /* Space from bottom */
+        }
+
+        /* Profile Section Styling */
+        .profile-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: #f8faff; /* Lighter background for profile */
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            /* Removed cursor: pointer; display: inline-block; text-decoration: none; color: inherit; */
+            /* as it's no longer a link */
+        }
+
+        .profile-section:hover {
+            transform: none; /* No transform on hover for non-clickable section */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Revert shadow on hover */
+        }
+
+        .profile-section img {
+            width: 120px; /* Larger photo size */
+            height: 120px;
+            border-radius: 50%; /* Circular photo */
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 4px solid #d1e2ff; /* Border around photo */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-section h1 {
+            font-size: 2.5em;
+            color: #1a2b4b;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .profile-section p {
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        /* Links Grid Styling (for Day buttons) */
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjusted minmax for 5 buttons */
+            gap: 20px; /* Space between buttons */
+            margin-bottom: 40px;
+        }
+
+        .link-card {
+            background-color: #e6f0ff; /* Lighter background for cards */
+            border-radius: 10px;
+            padding: 20px; /* Slightly less padding for button-like feel */
+            text-decoration: none; /* Remove underline from links */
+            color: #1a2b4b;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; /* Smooth hover effects */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            min-height: 80px; /* Smaller height for buttons */
+            font-size: 1.5em; /* Larger font for button text */
+            font-weight: 600;
+        }
+
+        .link-card:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
+            background-color: #c0d9ff; /* More distinct hover color */
+        }
+
+        /* Hide image and paragraph for the new "Day" links */
+        .link-card img,
+        .link-card p {
+            display: none;
+        }
+
+        /* Footer Styling */
+        footer {
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #ffffff; /* Changed footer text color to white */
+        }
+
+        /* Contact details in footer */
+        footer .contact-details {
+            font-size: 1.2em; /* Larger font size for icons */
+            color: #ffffff; /* Icons color in footer */
+            display: flex; /* Use flexbox for icon alignment */
+            justify-content: center; /* Center icons */
+            gap: 15px; /* Space between icons */
+            margin-top: 15px;
+        }
+
+        footer .contact-details a {
+            color: #007bff; /* Icon link color */
+            text-decoration: none;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        footer .contact-details a:hover {
+            color: #0056b3;
+            transform: scale(1.1); /* Slight scale on hover */
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                margin-top: 30px;
+                margin-bottom: 30px;
+            }
+
+            .profile-section img {
+                width: 100px;
+                height: 100px;
+            }
+
+            .profile-section h1 {
+                font-size: 2em;
+            }
+
+            .profile-section p {
+                font-size: 1em;
+            }
+
+            footer .contact-details {
+                font-size: 1em;
+            }
+
+            .link-card {
+                padding: 15px;
+                font-size: 1.3em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile-section img {
+                width: 80px;
+                height: 80px;
+            }
+
+            .profile-section h1 {
+                font-size: 1.8em;
+            }
+
+            .profile-section p {
+                font-size: 0.9em;
+            }
+
+            .links-grid {
+                gap: 15px;
+            }
+
+            .link-card {
+                font-size: 1.1em;
+                min-height: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="profile-section">
+            <img src="C:\Users\shiva\Downloads\IMG20250401135728.jpg" alt="Your Profile Photo ">
+            <h1>Shivam Kushwaha</h1>
+            <!-- <p></p> -->
+        </div>
+
+        <nav class="links-grid">
+            <a href="E:\intern\day1.html" class="link-card" target="_blank" rel="noopener noreferrer">
+                Day 1
+            </a>
+
+            <a href="E:\intern\day2.html" class="link-card" target="_blank" rel="noopener noreferrer">
+                Day 2
+            </a>
+
+            <a href="E:\intern\day3.html" class="link-card" target="_blank" rel="noopener noreferrer">
+                Day 3
+            </a>
+
+            <a href="E:\intern\day4.html" class="link-card" target="_blank" rel="noopener noreferrer">
+                Day 4
+            </a>
+
+            <a href="E:\intern\shopify.html" class="link-card" target="_blank" rel="noopener noreferrer">
+                Shopify
+            </a>
+        </nav>
+
+        <footer>
+            <div class="contact-details">
+                <a href="tel:+918856803602" aria-label="Call Shivam Kushwaha">
+                    <i class="fas fa-phone-alt"></i>
+                </a>
+                <a href="mailto:123shivam2052@sjcem.edu.in" aria-label="Email Shivam Kushwaha">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" aria-label="Shivam Kushwaha's GitHub Profile">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://twitter.com/yourhandle" target="_blank" rel="noopener noreferrer" aria-label="Shivam Kushwaha's Twitter Profile">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                
+            </div>
+            
+        </footer>
+         <p>&copy; 2025 Shivam Kushwaha. All rights reserved.</p>
+    </div>
+</body>
+</html>
